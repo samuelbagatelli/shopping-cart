@@ -10,7 +10,7 @@ const fetchProducts = async (keyWord) => {
     }
   }
   if (keyWord === undefined) {
-    throw new Error('You must provide an url')
+    throw new Error('You must provide an url');
   }
 };
 
