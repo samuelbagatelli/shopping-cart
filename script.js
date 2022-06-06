@@ -1,4 +1,5 @@
 const catalog = document.querySelector('section.items');
+const cartItems = document.querySelector('ol.cart__items');
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -7,8 +8,34 @@ const createProductImageElement = (imageSource) => {
   return img;
 };
 
+const cartItemClickListener = (event) => {
+  // coloque seu código aqui
+};
+
+const createCartItemElement = ({ sku, name, salePrice }) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  cartItems.appendChild(li);
+  return li;
+};
+
+const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+
+const addItemToCart = async (event) => {
+  const item = event.target.parentNode;
+  const sku = getSkuFromProductItem(item);
+  
+  const data = await fetchItem(sku);
+  return createCartItemElement(data);
+};
+
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
+  if (element === 'button') {
+    e.addEventListener('click', addItemToCart);
+  }
   e.className = className;
   e.innerText = innerText;
   return e;
@@ -42,19 +69,5 @@ const createCatalogItems = async () => {
   return eachItem;
 };
 createCatalogItems();
-
-const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
-
-const cartItemClickListener = (event) => {
-  // coloque seu código aqui
-};
-
-const createCartItemElement = ({ sku, name, salePrice }) => {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-};
 
 window.onload = () => { };
