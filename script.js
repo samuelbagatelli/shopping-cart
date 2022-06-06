@@ -1,3 +1,5 @@
+const catalog = document.querySelector('section.items');
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -15,6 +17,7 @@ const createCustomElement = (element, className, innerText) => {
 const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
+  catalog.appendChild(section);
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
@@ -23,6 +26,22 @@ const createProductItemElement = ({ sku, name, image }) => {
 
   return section;
 };
+
+const createCatalogItems = async () => {
+  const data = await fetchProducts('computador');
+  const usefulResults = await data.results.reduce((acc, curr) => {
+        acc.push({
+          sku: curr.id,
+          name: curr.title,
+          image: curr.thumbnail,
+        });
+        return acc;
+      }, []);
+  const eachItem = await usefulResults.forEach((element) => createProductItemElement(element));
+
+  return eachItem;
+};
+createCatalogItems();
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
