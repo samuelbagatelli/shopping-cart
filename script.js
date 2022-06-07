@@ -29,7 +29,13 @@ const addItemToCart = async (event) => {
   const sku = getSkuFromProductItem(item);
   
   const data = await fetchItem(sku);
-  return createCartItemElement(data);
+  const treatedObj = {
+      sku: data.id,
+      name: data.title,
+      salePrice: data.price,
+    };
+    createCartItemElement(treatedObj);
+    saveCartItems(cartItems.innerHTML);
 };
 
 const createCustomElement = (element, className, innerText) => {
@@ -71,4 +77,10 @@ const createCatalogItems = async () => {
 };
 createCatalogItems();
 
-window.onload = () => { };
+const loadCartItems = () => {
+  cartItems.innerHTML = getSavedCartItems();
+  const li = document.querySelectorAll('.cart__item');
+  li.forEach((element) => element.addEventListener('click', cartItemClickListener));
+};
+
+window.onload = () => { loadCartItems(); };

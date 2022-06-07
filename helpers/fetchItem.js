@@ -2,14 +2,8 @@ const fetchItem = async (id) => {
   try {
     const response = await fetch(`https://api.mercadolibre.com/items/${id}`);
     const data = await response.json();
-
-    const treatedObj = {
-      sku: data.id,
-      name: data.title,
-      salePrice: data.price,
-    };
     
-    return treatedObj;
+    return data;
   } catch (error) {
     // throw new Error(error);
   }
