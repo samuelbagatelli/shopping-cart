@@ -9,7 +9,8 @@ const createProductImageElement = (imageSource) => {
 };
 
 const cartItemClickListener = (event) => {
-  // coloque seu código aqui
+  const elementToDelet = event.target;
+  elementToDelet.remove();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
