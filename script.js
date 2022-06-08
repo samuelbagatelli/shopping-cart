@@ -1,6 +1,7 @@
 const catalog = document.querySelector('section.items');
 const cartItems = document.querySelector('ol.cart__items');
 const total = document.querySelector('.total-price');
+const emptyButton = document.querySelector('.empty-cart');
 
 const appendTotalPrice = () => {
   const li = document.querySelectorAll('.cart__item');
@@ -12,6 +13,11 @@ const appendTotalPrice = () => {
   });
   total.innerHTML = acc;
 };
+
+const emptyCart = () => emptyButton.addEventListener('click', () => {
+  cartItems.innerHTML = '';
+  appendTotalPrice();
+});
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -101,4 +107,5 @@ const loadCartItems = () => {
 window.onload = () => { 
   loadCartItems();
   appendTotalPrice();
+  emptyCart();
  };
