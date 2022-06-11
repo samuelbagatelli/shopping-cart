@@ -2,19 +2,25 @@ const catalog = document.querySelector('section.items');
 const cartItems = document.querySelector('ol.cart__items');
 const total = document.querySelector('.total-price');
 const emptyButton = document.querySelector('.empty-cart');
-const container = document.querySelector('.container');
 
 const loading = () => {
-  const loading = document.createElement('p');
-  loading.className = 'loading';
-  loading.innerText = 'carregando...'
-  container.appendChild(loading);
+  if (catalog.innerHTML === '') {
+    const p = document.createElement('p');
+    p.className = 'loading';
+    p.innerText = 'carregando...';
+    catalog.append(p);
+  }
 };
+loading();
 
 const removeLoading = () => {
-  const loading = document.querySelector('.loading');
-  container.removeChild(loading);
+  const p = document.querySelector('.loading');
+  if (catalog.innerHTML !== p) {
+    catalog.removeChild(p);
+  }
 };
+
+setTimeout((removeLoading), 2500);
 
 const appendTotalPrice = () => {
   const li = document.querySelectorAll('.cart__item');
@@ -97,7 +103,6 @@ const createProductItemElement = ({ sku, name, image }) => {
 };
 
 const createCatalogItems = async () => {
-  loading();
   const data = await fetchProducts('computador');
   const usefulResults = await data.results.reduce((acc, curr) => {
         acc.push({
